@@ -1,4 +1,4 @@
-# es-fetcher: Simplify API integration and content fetching in frontend apps.
+# es-fetcher: Simplify API integration and content fetching in front-end applications.
 [![NPM Version](https://img.shields.io/npm/v/es-fetcher.svg?branch=main)](https://www.npmjs.com/package/es-fetcher)
 [![Publish Size](https://badgen.net/packagephobia/publish/es-fetcher)](https://packagephobia.now.sh/result?p=es-fetcher)
 [![Downloads](https://img.shields.io/npm/dt/es-fetcher)](https://www.npmjs.com/package/es-fetcher)
