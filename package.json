@@ -1,12 +1,11 @@
 {
 	"name": "es-fetcher",
-	"version": "1.0.1",
+	"version": "1.0.5",
 	"description": "Enhance your frontend application's API implementation and calls with es-fetcher. Simplify and accelerate the process like never before.",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
 	"scripts": {
-		"build": "tsc",
-		"dist": "webpack --no-devtool"
+		"build": "tsc"
 	},
 	"repository": {
 		"type": "git",
@@ -37,9 +36,7 @@
 	"devDependencies": {
 		"@types/react": "18.2.33",
 		"ts-loader": "^9.5.0",
-		"typescript": "^5.2.2",
-		"webpack": "^5.89.0",
-		"webpack-cli": "^5.1.4"
+		"typescript": "^5.2.2"
 	},
 	"dependencies": {
 		"react": "18.2.0"

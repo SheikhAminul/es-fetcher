@@ -2,16 +2,11 @@ import { useEffect, useState } from 'react'
 import { constructAbsoluteUrl, isAbsoluteUrl, omitProperties, tryParsingBody } from './utils'
 import { clearMemoryCache, deleteMemoryCache, deleteMemoryCaches, memoryCacheData } from './fetch-memory-cache'
 
-interface FetchConfiguration {
-    baseUrl?: string
-    accessToken?: string
-    authMethod?: 'bearer'
-    cache?: 'default' | 'force-cache' | 'no-cache' | 'no-store' | 'only-if-cached' | 'reload' | 'memory-cache'
-    credentials?: 'include' | 'omit' | 'same-origin'
-    headers?: [string, string][] | Record<string, string> | Headers
-    mode?: 'cors' | 'navigate' | 'no-cors' | 'same-origin'
-}
-
+/**
+ * Options for API requests made with es-fetch.
+ *
+ * @interface FetchOptions
+ */
 interface FetchOptions {
     body?: BodyInit | null
     cache?: 'default' | 'force-cache' | 'no-cache' | 'no-store' | 'only-if-cached' | 'reload' | 'memory-cache'
@@ -26,14 +21,54 @@ interface FetchOptions {
     referrerPolicy?: ReferrerPolicy
 }
 
+/**
+ * Configuration options for the es-fetch package.
+ *
+ * @interface FetchConfiguration
+ */
+interface FetchConfiguration {
+    baseUrl?: string
+    accessToken?: string
+    authMethod?: 'bearer'
+    cache?: FetchOptions['cache']
+    credentials?: FetchOptions['credentials']
+    headers?: FetchOptions['headers']
+    mode?: FetchOptions['mode']
+}
+
+/**
+ * Global configuration fetch.
+ *
+ * @type {FetchConfiguration}
+ */
 export let configuration: FetchConfiguration = { baseUrl: window.location.origin }
+
+/**
+ * Configures the global fetch settings.
+ *
+ * @param {FetchConfiguration} fetchConfiguration - Global fetch settings, as defined in the `FetchConfiguration` interface.
+ */
 const configureFetcher = (fetchConfiguration: FetchConfiguration) => {
     configuration = { ...configuration, ...fetchConfiguration }
 }
 
-const createAbsoluteUrl = (url: string, base?: string) => constructAbsoluteUrl(url, base || configuration.baseUrl)
+/**
+ * Create an absolute URL based on the base URL and provided URL.
+ *
+ * @param {string} url - Relative or absolute URL.
+ * @param {string} [base] - Optional base URL.
+ * @returns {string} - The absolute URL.
+ */
+const createAbsoluteUrl = (url: string, base?: string): string => constructAbsoluteUrl(url, base || configuration.baseUrl)
 
-export const fetchData = async (url: string, options: FetchOptions = {}) => {
+/**
+ * Makes fetch request using the provided URL and options and returns the fetched data.
+ *
+ * @param {string} url - The URL to fetch data from. It can be either an absolute or relative URL.
+ * @param {FetchOptions} [options] - Custom options for the fetch request, as defined in the `FetchOptions` interface.
+ * @returns {Promise<any>} - A promise that resolves with the fetched data.
+ */
+export const fetchData = async (url: string, options: FetchOptions = {}): Promise<any> => {
     if (!isAbsoluteUrl(url)) url = createAbsoluteUrl(url)
 
     const { baseUrl, cache } = configuration
@@ -66,7 +101,14 @@ export const fetchData = async (url: string, options: FetchOptions = {}) => {
     return body
 }
 
-const useFetch = (url: string, options?: FetchOptions) => {
+/**
+ * A custom React hook for making API requests and managing loading state.
+ *
+ * @param {string} url - The URL to fetch data from. It can be either an absolute or relative URL.
+ * @param {FetchOptions} [options] - Custom options for the fetch request, as defined in the FetchOptions interface.
+ * @returns {{ loading: boolean, fetchedData: any, error: string | undefined }} - An object containing loading state, data, and error.
+ */
+const useFetch = (url: string, options?: FetchOptions): { loading: boolean; fetchedData: any; error: string | undefined } => {
     const [loading, setLoading] = useState(true)
     const [fetchedData, setFetchedData] = useState<any>()
     const [error, setError] = useState<string>()
