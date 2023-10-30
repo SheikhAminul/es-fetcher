@@ -75,7 +75,7 @@ export const fetchData = async (url: string, options: FetchOptions = {}): Promis
     cache = cache || options.cache
 
     let cachedData: any, cacheable = cache === 'memory-cache' && (!options.method || options.method === 'GET')
-    if (cacheable && (cachedData === memoryCacheData[url])) {
+    if (cacheable && (cachedData = memoryCacheData[url])) {
         return cachedData
     }
 
