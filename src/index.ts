@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { constructAbsoluteUrl, isAbsoluteUrl, omitProperties, tryParsingBody } from './utils'
+import { chooseProperties, constructAbsoluteUrl, isAbsoluteUrl, omitProperties, tryParsingBody } from './utils'
 import { clearMemoryCache, deleteMemoryCache, deleteMemoryCaches, memoryCacheData } from './fetch-memory-cache'
 
 /**
@@ -72,22 +72,22 @@ export const fetchData = async (url: string, options: FetchOptions = {}): Promis
     if (!isAbsoluteUrl(url)) url = createAbsoluteUrl(url)
 
     let { baseUrl, cache } = configuration
-    cache = cache || options.cache
-
-    let cachedData: any, cacheable = cache === 'memory-cache' && (!options.method || options.method === 'GET')
-    if (cacheable && (cachedData = memoryCacheData[url])) {
-        return cachedData
+    if (options.cache) {
+        cache = options.cache
+        if (cache === 'memory-cache') options = omitProperties(options, ['cache'])
     }
 
+    let cachedData: any, cacheable = cache === 'memory-cache' && (!options.method || options.method === 'GET')
+    if (cacheable && (cachedData = memoryCacheData[url])) return cachedData
+
     if (baseUrl && url.startsWith(baseUrl)) {
-        const { accessToken, authMethod, credentials, headers, mode } = configuration
+        const { accessToken, authMethod, headers } = configuration
         options = {
             ...(cache && cache !== 'memory-cache' ? { cache } : {}),
-            ...(credentials ? { credentials } : {}),
-            ...(mode ? { mode } : {}),
-            ...(omitProperties(options, ['cache'])),
+            ...(chooseProperties(configuration, ['mode', 'credentials'])),
+            ...options,
             headers: {
-                ...(options.body ? (headers || {}) : omitProperties(headers || {}, ['Content-Type'])),
+                ...(options.body ? (headers || {}) : omitProperties(headers || {} as any, ['Content-Type'])),
                 ...(options.headers || {})
             }
         }

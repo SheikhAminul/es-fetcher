@@ -5,8 +5,19 @@
  * @param {string[]} keys - An array of keys to omit from the object.
  * @returns {{ [key: string]: any }} - A new object with the specified keys omitted.
  */
-const omitProperties = (item: { [key: string]: any }, keys: string[]): { [key: string]: any } => {
-    return Object.fromEntries(Object.entries(item).filter(([key]) => !keys.includes(key)))
+const omitProperties = <T extends Record<string, any>>(item: T, keys: (keyof T)[]): Partial<T> => {
+    return Object.fromEntries(Object.entries(item).filter(([key]) => !keys.includes(key as keyof T))) as Partial<T>
+}
+
+/**
+ * Choose properties from an object.
+ *
+ * @param {object} item - The input object.
+ * @param {string[]} keys - An array of keys to choose from the object.
+ * @returns {{ [key: string]: any }} - A new object with only the specified keys.
+ */
+const chooseProperties = <T extends Record<string, any>>(item: T, keys: (keyof T)[]): Partial<T> => {
+    return Object.fromEntries(Object.entries(item).filter(([key]) => keys.includes(key as keyof T))) as Partial<T>
 }
 
 /**
@@ -57,4 +68,4 @@ const tryParsingBody = async (res: Response): Promise<any> => {
     }
 }
 
-export { omitProperties, isAbsoluteUrl, constructAbsoluteUrl, tryParsingBody }
+export { omitProperties, chooseProperties, isAbsoluteUrl, constructAbsoluteUrl, tryParsingBody }
