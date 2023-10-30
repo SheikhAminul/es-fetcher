@@ -71,7 +71,8 @@ const createAbsoluteUrl = (url: string, base?: string): string => constructAbsol
 export const fetchData = async (url: string, options: FetchOptions = {}): Promise<any> => {
     if (!isAbsoluteUrl(url)) url = createAbsoluteUrl(url)
 
-    const { baseUrl, cache } = configuration
+    let { baseUrl, cache } = configuration
+    cache = cache || options.cache
 
     let cachedData: any, cacheable = cache === 'memory-cache' && (!options.method || options.method === 'GET')
     if (cacheable && (cachedData === memoryCacheData[url])) {
@@ -84,7 +85,7 @@ export const fetchData = async (url: string, options: FetchOptions = {}): Promis
             ...(cache && cache !== 'memory-cache' ? { cache } : {}),
             ...(credentials ? { credentials } : {}),
             ...(mode ? { mode } : {}),
-            ...options,
+            ...(omitProperties(options, ['cache'])),
             headers: {
                 ...(options.body ? (headers || {}) : omitProperties(headers || {}, ['Content-Type'])),
                 ...(options.headers || {})
