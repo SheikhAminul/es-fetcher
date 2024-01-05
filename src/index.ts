@@ -68,7 +68,7 @@ const createAbsoluteUrl = (url: string, base?: string): string => constructAbsol
  * @param {FetchOptions} [options] - Custom options for the fetch request, as defined in the `FetchOptions` interface.
  * @returns {Promise<any>} - A promise that resolves with the fetched data.
  */
-export const fetchData = async (url: string, options: FetchOptions = {}): Promise<any> => {
+export const fetchData = (url: string, options: FetchOptions = {}): Promise<any> => new Promise((onSuccess, onFailed) => {
     if (!isAbsoluteUrl(url)) url = createAbsoluteUrl(url)
 
     let { baseUrl, cache } = configuration
@@ -94,22 +94,24 @@ export const fetchData = async (url: string, options: FetchOptions = {}): Promis
         if (authMethod === 'bearer' && accessToken) (<any>options.headers)['Authorization'] = `Bearer ${accessToken}`
     }
 
-    const res = await fetch(url, options as any)
-    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`)
-    const body = await tryParsingBody(res)
-    if (cacheable) memoryCacheData[url] = body
-
-    return body
-}
+    fetch(url, options as any).then(async (fetchResults) => {
+        const body = await tryParsingBody(fetchResults).catch(() => { })
+        if (cacheable) memoryCacheData[url] = body
+        if (fetchResults.ok) onSuccess(body)
+        else onFailed(body)
+    }).catch(exception => {
+        onFailed(exception)
+    })
+})
 
 /**
  * A custom React hook for making API requests and managing loading state.
  *
  * @param {string} url - The URL to fetch data from. It can be either an absolute or relative URL.
  * @param {FetchOptions} [options] - Custom options for the fetch request, as defined in the FetchOptions interface.
- * @returns {{ loading: boolean, fetchedData: any, error: string | undefined }} - An object containing loading state, data, and error.
+ * @returns {{ loading: boolean, fetchedData: any, error?: string }} - An object containing loading state, data, and error.
  */
-const useFetch = (url: string, options?: FetchOptions): { loading: boolean; fetchedData: any; error: string | undefined } => {
+const useFetch = (url: string, options?: FetchOptions): { loading: boolean; fetchedData: any; error?: string } => {
     const [loading, setLoading] = useState(true)
     const [fetchedData, setFetchedData] = useState<any>()
     const [error, setError] = useState<string>()

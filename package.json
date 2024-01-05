@@ -1,6 +1,6 @@
 {
 	"name": "es-fetcher",
-	"version": "1.0.10",
+	"version": "1.0.12",
 	"description": "Enhance your frontend application's API implementation and calls with es-fetcher. Simplify and accelerate the process like never before.",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
@@ -30,7 +30,7 @@
 		"url": "https://github.com/SheikhAminul/es-fetcher/issues"
 	},
 	"files": [
-		"lib/**/*"
+		"./lib/**/*"
 	],
 	"homepage": "https://github.com/SheikhAminul/es-fetcher#readme",
 	"devDependencies": {

@@ -55,10 +55,10 @@ const countries = await fetch('/utils/countries', { cache: 'memory-cache' })
 // Basic POST example
 const result = await fetch('/customer/add', {
     method: 'POST',
-    body: {
+    body: JSON.stringify({
         name: 'John Doe',
         age: 30
-    }
+    })
 })
 ```
 
