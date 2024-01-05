@@ -129,4 +129,4 @@ const useFetch = (url: string, options?: FetchOptions): { loading: boolean; fetc
     return { loading, fetchedData, error }
 }
 
-export { fetchData as fetch, useFetch, configureFetcher, deleteMemoryCache, deleteMemoryCaches, clearMemoryCache, createAbsoluteUrl }
+export { fetchData as fetch, useFetch, configureFetcher, deleteMemoryCache, deleteMemoryCaches, clearMemoryCache, createAbsoluteUrl, FetchOptions }
