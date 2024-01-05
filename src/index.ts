@@ -78,9 +78,8 @@ export const fetchData = (url: string, options: FetchOptions = {}): Promise<any>
     }
 
     let cachedData: any, cacheable = cache === 'memory-cache' && (!options.method || options.method === 'GET')
-    if (cacheable && (cachedData = memoryCacheData[url])) return cachedData
-
-    if (baseUrl && url.startsWith(baseUrl)) {
+    if (cacheable && (cachedData = memoryCacheData[url])) onSuccess(cachedData)
+    else if (baseUrl && url.startsWith(baseUrl)) {
         const { accessToken, authMethod, headers } = configuration
         options = {
             ...(cache && cache !== 'memory-cache' ? { cache } : {}),
