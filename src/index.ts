@@ -91,16 +91,16 @@ export const fetchData = (url: string, options: FetchOptions = {}): Promise<any>
             }
         }
         if (authMethod === 'bearer' && accessToken) (<any>options.headers)['Authorization'] = `Bearer ${accessToken}`
-    }
 
-    fetch(url, options as any).then(async (fetchResults) => {
-        const body = await tryParsingBody(fetchResults).catch(() => { })
-        if (cacheable) memoryCacheData[url] = body
-        if (fetchResults.ok) onSuccess(body)
-        else onFailed(body)
-    }).catch(exception => {
-        onFailed(exception)
-    })
+        fetch(url, options as any).then(async (fetchResults) => {
+            const body = await tryParsingBody(fetchResults).catch(() => { })
+            if (cacheable) memoryCacheData[url] = body
+            if (fetchResults.ok) onSuccess(body)
+            else onFailed(body)
+        }).catch(exception => {
+            onFailed(exception)
+        })
+    }
 })
 
 /**
