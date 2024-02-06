@@ -41,7 +41,7 @@ interface FetchConfiguration {
  *
  * @type {FetchConfiguration}
  */
-export let configuration: FetchConfiguration = { baseUrl: window.location.origin }
+export let configuration: FetchConfiguration = { baseUrl: location?.origin }
 
 /**
  * Configures the global fetch settings.

@@ -27,7 +27,7 @@ const chooseProperties = <T extends Record<string, any>>(item: T, keys: (keyof T
  * @returns {boolean} - True if the URL is absolute, false otherwise.
  */
 const isAbsoluteUrl = (url: string): boolean => {
-    return url.match(/^[^:\/\\]+:\/\//) ? true : false;
+    return url.match(/^[^:\/\\]+:\/\//) ? true : false
 }
 
 /**
@@ -38,7 +38,7 @@ const isAbsoluteUrl = (url: string): boolean => {
  * @returns {string} - The absolute URL.
  */
 const constructAbsoluteUrl = (url: string, base?: string): string => {
-    base = (base || window.location.origin).replace(/\/+$/, '')
+    base = (base || location?.origin).replace(/\/+$/, '')
     url = url.replace(/^\/+/, '')
     return `${base}/${url}`
 }

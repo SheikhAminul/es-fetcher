@@ -214,7 +214,7 @@ deleteMemoryCaches([
 
 ### **`FetchConfiguration`**
 The `FetchConfiguration` interface defines the global fetch settings.
-- `baseUrl` (string, optional): The base URL for API requests. Defaults to `window.location.origin`.
+- `baseUrl` (string, optional): The base URL for API requests. Defaults to `location.origin`.
 
 - `accessToken` (string, optional): An access token to include in the request headers for authentication.
 
