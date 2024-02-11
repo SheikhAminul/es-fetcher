@@ -1,6 +1,8 @@
 import { createAbsoluteUrl } from './index'
 import { isAbsoluteUrl } from './utils'
 
+declare var URLPattern: any
+
 /**
  * In-memory cache for storing fetched data.
  * @type {Object.<string, any>}
@@ -13,7 +15,7 @@ let cacheData: { [url: string]: any } = {}
  * @param {string} urlPattern - The URL pattern for which you want to clear cached data. This pattern can include wildcards (*) to match multiple URLs.
  */
 const deleteMemoryCache = (urlPattern: string) => {
-    urlPattern = new (<any>window).URLPattern(isAbsoluteUrl(urlPattern) ? urlPattern : createAbsoluteUrl(urlPattern))
+    urlPattern = new URLPattern(isAbsoluteUrl(urlPattern) ? urlPattern : createAbsoluteUrl(urlPattern))
     for (const url of Object.keys(cacheData)) {
         if ((urlPattern as any).test(url)) {
             delete cacheData[url]
