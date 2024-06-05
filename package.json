@@ -1,6 +1,6 @@
 {
 	"name": "es-fetcher",
-	"version": "1.0.18",
+	"version": "1.0.19",
 	"description": "Enhance your frontend application's API implementation and calls with es-fetcher. Simplify and accelerate the process like never before.",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
@@ -34,11 +34,11 @@
 	],
 	"homepage": "https://github.com/SheikhAminul/es-fetcher#readme",
 	"devDependencies": {
-		"@types/react": "18.2.33",
-		"ts-loader": "^9.5.0",
-		"typescript": "^5.2.2"
+		"@types/react": "18.3.3",
+		"ts-loader": "^9.5.1",
+		"typescript": "^5.4.5"
 	},
 	"dependencies": {
-		"react": "18.2.0"
+		"react": "18.3.1"
 	}
 }
