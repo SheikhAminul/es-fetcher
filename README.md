@@ -69,7 +69,7 @@ Data fetching and state management in your React application with the **`useFetc
 import { useFetch } from 'es-fetcher'
 
 function UserList() {
-    const { data, loading, error } = useFetch('/users')
+    const { fetchedData, loading, error } = useFetch('/users')
 
     if (loading) return <p>Loading...</p>
 
@@ -77,7 +77,7 @@ function UserList() {
 
     return (
         <ul>
-            {data.map(user => (
+            {fetchedData.map(user => (
                 <li key={user.id}>{user.name}</li>
             ))}  
         </ul>
@@ -90,7 +90,7 @@ Example of using memory-cache for GET requests. If a cache is not available for 
 import { useFetch } from 'es-fetcher'
 
 function UserList() {
-    const { data, loading, error } = useFetch('/users', { cache: 'memory-cache' })
+    const { fetchedData, loading, error } = useFetch('/users', { cache: 'memory-cache' })
 
     if (loading) return <p>Loading...</p>
 
@@ -98,7 +98,7 @@ function UserList() {
 
     return (
         <ul>
-            {data.map(user => (
+            {fetchedData.map(user => (
                 <li key={user.id}>{user.name}</li>
             ))}  
         </ul>
