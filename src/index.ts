@@ -77,7 +77,7 @@ export const fetchData = (url: string, options: FetchOptions = {}): Promise<any>
         if (cache === 'memory-cache') options = omitProperties(options, ['cache'])
     }
 
-    let cachedData: any, cacheable = (cache === 'memory-cache' || memoryCacheData.hasOwnProperty(url)) && (!options.method || options.method === 'GET')
+    let cachedData: any, cacheable = cache === 'memory-cache' && (!options.method || options.method === 'GET')
     if (cacheable && (cachedData = memoryCacheData[url])) onSuccess(cachedData)
     else if (baseUrl && url.startsWith(baseUrl)) {
         const { accessToken, authMethod, headers } = configuration
@@ -94,7 +94,7 @@ export const fetchData = (url: string, options: FetchOptions = {}): Promise<any>
 
         fetch(url, options as any).then(async (fetchResults) => {
             const body = await tryParsingBody(fetchResults).catch(() => { })
-            if (cacheable) memoryCacheData[url] = body
+            if (cacheable || (memoryCacheData.hasOwnProperty(url) && (!options.method || options.method === 'GET'))) memoryCacheData[url] = body
             if (fetchResults.ok) onSuccess(body)
             else onFailed(body)
         }).catch(exception => {
