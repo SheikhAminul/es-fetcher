@@ -1,11 +1,12 @@
 {
 	"name": "es-fetcher",
-	"version": "1.0.21",
+	"version": "1.0.22",
 	"description": "Enhance your frontend application's API implementation and calls with es-fetcher. Simplify and accelerate the process like never before.",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
 	"scripts": {
-		"build": "tsc"
+		"build": "tsc",
+		"watch:build": "(set /p dirPath=\"Enter Dir Path:\" || set dirPath=./lib) && call tsc --watch --outDir \"%dirPath%\""
 	},
 	"repository": {
 		"type": "git",
